@@ -1,16 +1,17 @@
-import { PublicKey } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { AssistantToTheRegionalManager } from "../../target/types/assistant_to_the_regional_manager";
 import { BankrunProvider } from "anchor-bankrun";
 import { UserFixture, AccountFixture, splAccountFixture} from "./index";
-import { derive_manager_config_address } from "../utils";
+import { derive_manager_config_account, derive_market_config_account, derive_metadata_account, derive_multi_market_configs, MPL_TOKEN_METADATA_PROGRAM_ID } from "../utils";
 
 export class ManagerFixture {
   public program: Program<AssistantToTheRegionalManager>;
   public provider: BankrunProvider;
   public quoteMint: PublicKey;
   public quoteAta: splAccountFixture;
+  public shareMint: anchor.Wallet;
   public managerVaultConfigAcc: AccountFixture;
 
   public constructor(
@@ -21,6 +22,7 @@ export class ManagerFixture {
     this.program = _program;
     this.provider = _provider;
     this.quoteMint = _quoteMint;
+    this.shareMint = new anchor.Wallet(Keypair.generate());
   }
 
   async create({
@@ -64,7 +66,7 @@ export class ManagerFixture {
     // set manager config account
     this.managerVaultConfigAcc = new AccountFixture(
       "managerVaultConfig",
-      derive_manager_config_address(this.quoteMint, symbol, name, this.program.programId),
+      derive_manager_config_account(this.quoteMint, symbol, name, this.program.programId),
       this.program,
     );
 
@@ -91,12 +93,39 @@ export class ManagerFixture {
         user: user.key.publicKey,
         config: this.managerVaultConfigAcc.key,
         quoteMint: this.quoteMint,
+        shareMint: this.shareMint.publicKey,
+        metadataAccount: derive_metadata_account(this.shareMint.publicKey, MPL_TOKEN_METADATA_PROGRAM_ID, this.program.programId),
         tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
         systemProgram: anchor.web3.SystemProgram.programId,
+        tokenMetadataProgram: MPL_TOKEN_METADATA_PROGRAM_ID,
       })
+      .signers([user.key.payer, this.shareMint.payer])
+      .rpc();
+  }
+
+  async setSupplyQueue({
+    user,
+    newSupplyQueue,
+  }: {
+    user: UserFixture;
+    newSupplyQueue: PublicKey[];
+  }): Promise<void> {
+
+    await this.program.methods
+      .setSupplyQueue({
+        newSupplyQueue,
+      })
+      .accounts({
+        user: user.key.publicKey,
+        config: this.managerVaultConfigAcc.key,
+        quoteMint: this.quoteMint,
+        tokenProgram: anchor.utils.token.TOKEN_PROGRAM_ID,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        // NOTE: remaining accounts are market configs.
+      })
+      .remainingAccounts(derive_multi_market_configs(this.managerVaultConfigAcc.key, newSupplyQueue, this.program.programId))
       .signers([user.key.payer])
       .rpc();
-
   }
 
   // account related methods
@@ -106,4 +135,5 @@ export class ManagerFixture {
       owner: this.managerVaultConfigAcc.key,
     });
   }
+
 }

@@ -16,6 +16,7 @@ const IDL = require("../target/idl/assistant_to_the_regional_manager.json");
 export const COMMITMENT: { commitment: Finality } = { commitment: "confirmed" };
 
 export const PATHFINDER_PROGRAM_ID = new PublicKey("7ALFC87zvuPvpp9h5Stq9SSP3kTCUJfhtirEZVJmZYy4");
+export const MPL_TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
 
 export function create_account_w_sol(
   context: ProgramTestContext,
@@ -72,7 +73,7 @@ export function deriveMarketAddress(
 }
 
 
-export function derive_manager_config_address(
+export function derive_manager_config_account(
   quoteMint: PublicKey,
   symbol: string,
   name: string,
@@ -84,6 +85,54 @@ export function derive_manager_config_address(
       quoteMint.toBuffer(),
       Buffer.from(symbol),
       Buffer.from(name),
+    ],
+    programId
+  )[0];
+}
+
+export function derive_metadata_account(
+  shareMint: PublicKey,
+  tokenMetadataProgramId: PublicKey,
+  programId: PublicKey
+) {
+  return PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("metadata"),
+      tokenMetadataProgramId.toBuffer(),
+      shareMint.toBuffer(),
+    ],
+    tokenMetadataProgramId
+  )[0];
+}
+
+export function derive_multi_market_configs(
+  managerConfig: PublicKey,
+  marketIds: PublicKey[],
+  programId: PublicKey
+) {
+  return marketIds.map((marketId) => {
+    return {
+      pubkey: derive_market_config_account(
+        managerConfig,
+        marketId,
+        programId
+      ),
+      isSigner: false,
+      isWritable: false
+    }
+  });
+}
+
+export function derive_market_config_account(
+  managerConfig: PublicKey,
+  marketId: PublicKey,
+  programId: PublicKey
+) {
+  return PublicKey.findProgramAddressSync(
+    [
+      Buffer.from("managermarketconfig"),
+      managerConfig.toBuffer(),
+      marketId.toBuffer(),
     ],
     programId
   )[0];
@@ -104,7 +153,12 @@ export class TestUtils {
   }): Promise<TestUtils> {
     const instance = new TestUtils();
     
-    instance.context = await startAnchor('', [], []);
+    instance.context = await startAnchor(
+      '',
+      [{ name: "metadata", programId: MPL_TOKEN_METADATA_PROGRAM_ID }],
+      []
+    );
+
     instance.provider = new BankrunProvider(instance.context);
     instance.program = new Program<AssistantToTheRegionalManager>(IDL, instance.provider);
     instance.banks = instance.context.banksClient;

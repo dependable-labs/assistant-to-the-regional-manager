@@ -37,6 +37,9 @@ describe("create-manager", () => {
     assert.equal(managerAccountData.curator.toBase58(), owen.key.publicKey.toBase58());
     assert.equal(managerAccountData.feeRecipient.toBase58(), owen.key.publicKey.toBase58());
     assert.equal(managerAccountData.skimRecipient.toBase58(), owen.key.publicKey.toBase58());
+    assert.equal(managerAccountData.quoteMint.toBase58(), manager.quoteMint.toBase58());
+    assert.equal(managerAccountData.name, "USDC Manager");
+    assert.equal(managerAccountData.symbol, "USDCM");
     assert.equal(managerAccountData.timelock, 0);
     assert.equal(managerAccountData.decimalsOffset, 0);
     assert.equal(managerAccountData.lastTotalAssets, 0);

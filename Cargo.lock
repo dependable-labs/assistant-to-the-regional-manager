@@ -239,6 +239,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04bd077c34449319a1e4e0bc21cea572960c9ae0d0fefda0dd7c52fcc3c647a3"
 dependencies = [
  "anchor-lang",
+ "mpl-token-metadata",
  "spl-associated-token-account",
  "spl-pod",
  "spl-token",
@@ -413,6 +414,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
+ "pathfinder",
 ]
 
 [[package]]
@@ -973,6 +975,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5443807d6dff69373d433ab9ef5378ad8df50ca6298caf15de6e52e24aaf54d5"
 
 [[package]]
+name = "fast-math"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2465292146cdfc2011350fe3b1c616ac83cf0faeedb33463ba1c332ed8948d66"
+dependencies = [
+ "ieee754",
+]
+
+[[package]]
 name = "feature-probe"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1064,6 +1075,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "hex"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "hmac"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1104,6 +1124,12 @@ name = "ident_case"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
+
+[[package]]
+name = "ieee754"
+version = "0.2.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9007da9cacbd3e6343da136e98b0d2df013f553d35bdec8b518f07bea768e19c"
 
 [[package]]
 name = "im"
@@ -1299,6 +1325,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "mpl-token-metadata"
+version = "4.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "caf0f61b553e424a6234af1268456972ee66c2222e1da89079242251fa7479e5"
+dependencies = [
+ "borsh 0.9.3",
+ "num-derive 0.3.3",
+ "num-traits",
+ "solana-program",
+ "thiserror",
+]
+
+[[package]]
+name = "num"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "35bd024e8b2ff75562e5f34e7f4905839deb4b22955ef5e73d2fea1b9813cb23"
+dependencies = [
+ "num-bigint",
+ "num-complex",
+ "num-integer",
+ "num-iter",
+ "num-rational",
+ "num-traits",
+]
+
+[[package]]
 name = "num-bigint"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1306,6 +1359,26 @@ checksum = "a5e44f723f1133c9deac646763579fdb3ac745e418f2a7af9cd0c431da1f20b9"
 dependencies = [
  "num-integer",
  "num-traits",
+]
+
+[[package]]
+name = "num-complex"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73f88a1307638156682bada9d7604135552957b7818057dcef22705b4d509495"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
+name = "num-derive"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "876a53fff98e03a936a674b29568b0e605f06b29372c2489ff4de23f1949743d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -1325,6 +1398,28 @@ version = "0.1.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7969661fd2958a5cb096e56c8e1ad0444ac2bbcd0061bd28660485a44879858f"
 dependencies = [
+ "num-traits",
+]
+
+[[package]]
+name = "num-iter"
+version = "0.1.45"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1429034a0490724d0075ebb2bc9e875d6503c3cf69e235a8941aa757d83ef5bf"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
+name = "num-rational"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f83d14da390562dca69fc84082e73e548e1ad308d24accdedd2720017cb37824"
+dependencies = [
+ "num-bigint",
+ "num-integer",
  "num-traits",
 ]
 
@@ -1400,6 +1495,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
+name = "pathfinder"
+version = "0.1.0"
+source = "git+https://github.com/dependable-labs/pathfinder?branch=develop#ab5346d956ac277b446343bf62018e0cf5982705"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "arrayref",
+ "bytemuck",
+ "pyth-solana-receiver-sdk",
+ "switchboard-on-demand",
+ "uint",
+]
+
+[[package]]
 name = "pbkdf2"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1469,6 +1578,39 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60946a68e5f9d28b0dc1c21bb8a97ee7d018a8b322fa57838ba31cc878e22d99"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "pyth-solana-receiver-sdk"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "186d107c507e71a4528405eccefc6b3b7177a10ad6dd4bde531604debf87f091"
+dependencies = [
+ "anchor-lang",
+ "hex",
+ "pythnet-sdk",
+ "solana-program",
+]
+
+[[package]]
+name = "pythnet-sdk"
+version = "2.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "498d20fd330277697aaee92f341bdabdb4695b10e05f054157a18ad8b7746a17"
+dependencies = [
+ "anchor-lang",
+ "bincode",
+ "borsh 0.10.4",
+ "bytemuck",
+ "byteorder",
+ "fast-math",
+ "hex",
+ "rustc_version",
+ "serde",
+ "sha3 0.10.8",
+ "slow_primes",
+ "solana-program",
+ "thiserror",
 ]
 
 [[package]]
@@ -1824,6 +1966,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "slow_primes"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "58267dd2fbaa6dceecba9e3e106d2d90a2b02497c0e8b01b8759beccf5113938"
+dependencies = [
+ "num",
+]
+
+[[package]]
 name = "smallvec"
 version = "1.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1911,7 +2062,7 @@ dependencies = [
  "log",
  "memoffset",
  "num-bigint",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "parking_lot",
  "rand 0.8.5",
@@ -1959,7 +2110,7 @@ dependencies = [
  "libsecp256k1",
  "log",
  "memmap2",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "num_enum",
  "pbkdf2 0.11.0",
@@ -2022,7 +2173,7 @@ dependencies = [
  "itertools",
  "lazy_static",
  "merlin",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "rand 0.7.3",
  "serde",
@@ -2043,7 +2194,7 @@ checksum = "143109d789171379e6143ef23191786dfaac54289ad6e7917cfb26b36c432b10"
 dependencies = [
  "assert_matches",
  "borsh 1.5.5",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "solana-program",
  "spl-token",
@@ -2114,7 +2265,7 @@ version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e45a49acb925db68aa501b926096b2164adbdcade7a0c24152af9f0742d0a602"
 dependencies = [
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "solana-program",
  "spl-program-error-derive",
@@ -2155,7 +2306,7 @@ checksum = "b9eb465e4bf5ce1d498f05204c8089378c1ba34ef2777ea95852fc53a1fd4fb2"
 dependencies = [
  "arrayref",
  "bytemuck",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "num_enum",
  "solana-program",
@@ -2170,7 +2321,7 @@ checksum = "4c39e416aeb1ea0b22f3b2bbecaf7e38a92a1aa8f4a0c5785c94179694e846a0"
 dependencies = [
  "arrayref",
  "bytemuck",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "num_enum",
  "solana-program",
@@ -2243,6 +2394,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "static_assertions"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
+
+[[package]]
 name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2253,6 +2410,16 @@ name = "subtle"
 version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6bdef32e8150c2a081110b42772ffe7d7c9032b606bc226c8260fd97e0976601"
+
+[[package]]
+name = "switchboard-on-demand"
+version = "0.1.0"
+source = "git+https://github.com/dependable-labs/pathfinder?branch=develop#ab5346d956ac277b446343bf62018e0cf5982705"
+dependencies = [
+ "anchor-lang",
+ "bytemuck",
+ "solana-program",
+]
 
 [[package]]
 name = "syn"
@@ -2387,6 +2554,18 @@ name = "typenum"
 version = "1.17.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42ff0bf0c66b8238c6f3b578df37d0b7848e55df8577b3f74f92a69acceeb825"
+
+[[package]]
+name = "uint"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6470ab50f482bde894a037a57064480a246dbfdd5960bd65a44824693f08da5f"
+dependencies = [
+ "byteorder",
+ "crunchy",
+ "hex",
+ "static_assertions",
+]
 
 [[package]]
 name = "unicode-ident"
